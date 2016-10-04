@@ -1,0 +1,18 @@
+[Unit]
+Description=The Alertmanager handles alerts sent by client applications such as the Prometheus server
+Documentation=https://prometheus.io/docs/alerting/alertmanager/
+Wants=basic.target
+After=basic.target network.target
+
+[Service]
+User=prometheus
+Group=prometheus
+EnvironmentFile=/etc/default/alertmanager
+ExecStart=/usr/bin/alertmanager $ARGS
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=always
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target

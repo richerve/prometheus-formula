@@ -1,0 +1,65 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+required_plugins = %w( vagrant-hostmanager )
+required_plugins.each do |plugin|
+      exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(" ")}" unless Vagrant.has_plugin? plugin || ARGV[0] == 'plugin'
+end
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "ubuntu/trusty64"
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_guest = true
+  config.hostmanager.include_offline = true
+
+  config.vm.provision :shell, inline: "sudo locale-gen en_IE.UTF-8"
+
+  (1..3).each do |m|
+    config.vm.define "min#{m}" do |min|
+      min.vm.network "private_network", ip: "172.16.199.1#{m}"
+      min.vm.hostname = "min#{m}"
+
+      min.vm.provider "virtualbox" do |vb|
+        vb.name = "prometheus-min#{m}"
+        vb.memory = "2048"
+      end
+
+      min.vm.provision :salt do |salt|
+        salt.minion_config = "conf/minion"
+        salt.minion_key = "keys/min#{m}.pem"
+        salt.minion_pub = "keys/min#{m}.pub"
+      end
+    end
+  end
+
+  config.vm.define :master do |master|
+    master.vm.network "private_network", ip: "172.16.199.10"
+    master.vm.hostname = "salt"
+    master.vm.synced_folder "../../prometheus", "/srv/formulas/prometheus"
+    master.vm.synced_folder "../salt", "/srv/salt"
+    master.vm.synced_folder "../pillar", "/srv/pillar"
+
+    master.vm.provider "virtualbox" do |vb|
+      vb.name = "prometheus-master"
+      vb.memory = "1024"
+    end
+
+    master.vm.provision :shell, inline: "sudo apt-get install -y python-git python-pip"
+
+    master.vm.provision :salt do |salt|
+      salt.run_highstate = false
+      salt.install_master = true
+      salt.master_config = "conf/master"
+      salt.master_key = "keys/master.pem"
+      salt.master_pub = "keys/master.pub"
+      salt.seed_master = {"min1": "keys/min1.pub",
+                          "min2": "keys/min2.pub",
+                          "min3": "keys/min3.pub"}
+    end
+  end
+end

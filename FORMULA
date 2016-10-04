@@ -1,0 +1,9 @@
+name: prometheus
+os: Ubuntu
+os_family: Debian
+version: 201610
+release: 1
+summary: Prometheus saltstack formula
+description: Prometheus saltstack formula
+top_level_dir: prometheus
+recommended:

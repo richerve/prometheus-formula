@@ -1,0 +1,11 @@
+fileserver_backend:
+  - roots
+#  - git
+
+file_roots:
+  base:
+    - /srv/salt
+    - /srv/formulas
+
+#gitfs_remotes:
+#  - https://github.com/repo/something-formula.git

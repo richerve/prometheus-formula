@@ -1,0 +1,37 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "bento/ubuntu-16.04"
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
+  config.vm.provision :shell, inline: "sudo locale-gen en_IE.UTF-8"
+
+  config.vm.network "forwarded_port", guest: 9090, host: 9090, auto_correct: true
+  config.vm.network "forwarded_port", guest: 9100, host: 9100, auto_correct: true
+  config.vm.hostname = "prometheus-formula"
+  config.vm.synced_folder "../../prometheus", "/srv/formulas/prometheus"
+  config.vm.synced_folder "../salt", "/srv/salt"
+  config.vm.synced_folder "../pillar", "/srv/pillar/"
+  # Testing with tox and testinfra
+  # config.vm.synced_folder "../testinfra", "/vagrant/testinfra"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "prometheus-formula"
+    vb.memory = "1024"
+  end
+
+  config.vm.provision :salt do |salt|
+    salt.masterless = true
+    salt.minion_config = "conf/minion"
+    salt.run_highstate = true
+  end
+
+  #config.vm.provision "shell", inline: "sudo pip install tox"
+  #config.vm.provision "test", type: "shell" do |t|
+  #  t.inline = "tox -c /vagrant/tox.ini"
+  #end
+end

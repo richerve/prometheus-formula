@@ -1,0 +1,30 @@
+# Prometheus Alert Manager (Upstart unit)
+description "The Alertmanager handles alerts sent by client applications such as the Prometheus server."
+start on runlevel [2345]
+stop on runlevel [06]
+
+env ALERTMANAGER=/usr/bin/alertmanager
+env USER=prometheus
+env GROUP=prometheus
+env DEFAULTS=/etc/default/alertmanager
+env RUNDIR=/var/run/alertmanager
+env PID_FILE=/var/run/alertmanager/alertmanager.pid
+pre-start script
+  [ -e $DEFAULTS ] && . $DEFAULTS
+
+  mkdir -p $RUNDIR           || true
+  chmod 0750 $RUNDIR         || true
+  chown $USER:$GROUP $RUNDIR || true
+end script
+
+script
+    # read settings like GOMAXPROCS from "/etc/default/alertmanager", if available.
+    [ -e $DEFAULTS ] && . $DEFAULTS
+
+    export GOMAXPROCS=${GOMAXPROCS:-2}
+    exec start-stop-daemon -c $USER -g $GROUP -p $PID_FILE -x $ALERTMANAGER -S -- $ARGS
+end script
+
+respawn
+respawn limit 10 10
+kill timeout 10
