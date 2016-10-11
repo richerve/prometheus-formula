@@ -13,11 +13,9 @@ prometheus_server_tarball:
     - if_missing: {{ version_path }}
 
 prometheus_bin_link:
-  alternatives.install:
-    - name: prometheus
-    - link: /usr/bin/prometheus
-    - path: {{ version_path }}/prometheus
-    - priority: 10
+  file.symlink:
+    - name: /usr/bin/prometheus
+    - target: {{ version_path }}/prometheus
     - require:
       - archive: prometheus_server_tarball
 
