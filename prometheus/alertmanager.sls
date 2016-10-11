@@ -13,11 +13,9 @@ alertmanager_tarball:
     - if_missing: {{ version_path }}
 
 alertmanager_bin_link:
-  alternatives.install:
-    - name: alertmanager
-    - link: /usr/bin/alertmanager
-    - path: {{ version_path }}/alertmanager
-    - priority: 10
+  file.symlink:
+    - name: /usr/bin/alertmanager
+    - target: {{ version_path }}/alertmanager
     - require:
       - archive: alertmanager_tarball
 

@@ -13,11 +13,9 @@ node_exporter_tarball:
     - if_missing: {{ version_path }}
 
 node_exporter_bin_link:
-  alternatives.install:
-    - name: node_exporter
-    - link: /usr/bin/node_exporter
-    - path: {{ version_path }}/node_exporter
-    - priority: 10
+  file.symlink:
+    - name: /usr/bin/node_exporter
+    - target: {{ version_path }}/node_exporter
     - require:
       - archive: node_exporter_tarball
 
