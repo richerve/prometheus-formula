@@ -20,15 +20,11 @@ prometheus_bin_link:
       - archive: prometheus_server_tarball
 
 prometheus_server_config:
-  file.managed:
+  file.serialize:
     - name: {{ prometheus.server.args.config_file }}
-    - source: salt://prometheus/files/config.jinja
-    - template: jinja
     - user: prometheus
     - group: prometheus
-    - makedirs: True
-    - defaults:
-        data: {{ prometheus.server.config }}
+    - dataset: {{prometheus.server.config}}
 
 prometheus_defaults:
   file.managed:
