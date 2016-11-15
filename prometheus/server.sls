@@ -24,7 +24,7 @@ prometheus_server_config:
     - name: {{ prometheus.server.args.config_file }}
     - user: prometheus
     - group: prometheus
-    - dataset: {{prometheus.server.config}}
+    - dataset_pillar: prometheus:server:config
 
 prometheus_defaults:
   file.managed:

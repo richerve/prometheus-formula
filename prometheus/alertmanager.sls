@@ -20,6 +20,13 @@ alertmanager_bin_link:
       - archive: alertmanager_tarball
 
 alertmanager_config:
+  file.serialize:
+    - name: {{ prometheus.alertmanager.args.config_file }}
+    - user: prometheus
+    - group: prometheus
+    - dataset_pillar: prometheus:alertmanager:config
+
+alertmanager_config:
   file.managed:
     - name: {{ prometheus.alertmanager.args.config_file }}
     - source: salt://prometheus/files/config.jinja
