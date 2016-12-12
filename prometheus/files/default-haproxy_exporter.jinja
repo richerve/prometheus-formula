@@ -1,0 +1,5 @@
+# Set the command-line arguments to pass to the haproxy_exporter service.
+ARGS='-haproxy.scrape-uri="{{scrape_uri}}"'
+
+# Haproxy exporter supports the following options:
+#   -haproxy.scrape-uri string

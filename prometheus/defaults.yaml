@@ -30,3 +30,10 @@ prometheus:
       source_hash: sha1=89ac98c062315ba35eda257ca88c8c4b43f38d47
       args:
         config_file: /etc/prometheus/blackbox_exporter.yml
+    haproxy:
+      version: 0.7.1.linux-amd64
+      install_dir: /opt
+      source: https://github.com/prometheus/haproxy_exporter/releases/download/v0.7.1/haproxy_exporter-0.7.1.linux-amd64.tar.gz
+      source_hash: sha1=56849253e280db3db2aa80f1013ecfe242536d32
+      args:
+        scrape_uri: 'http://localhost/stats;csv'
