@@ -2,7 +2,7 @@ prometheus:
   server:
     version: 1.4.1.linux-amd64
     install_dir: /opt
-    source: 'https://github.com/prometheu4/prometheus/releases/download/v1.4.1/prometheus-1.4.1.linux-amd64.tar.gz'
+    source: https://github.com/prometheus/prometheus/releases/download/v1.4.1/prometheus-1.4.1.linux-amd64.tar.gz
     source_hash: sha1=3e78173e7d65623e79e0292da16e6155de947185
     args:
       config_file: /etc/prometheus/prometheus.yml
