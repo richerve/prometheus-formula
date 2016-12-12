@@ -36,4 +36,4 @@ prometheus:
       source: https://github.com/prometheus/haproxy_exporter/releases/download/v0.7.1/haproxy_exporter-0.7.1.linux-amd64.tar.gz
       source_hash: sha1=56849253e280db3db2aa80f1013ecfe242536d32
       args:
-        scrape_uri: 'http://localhost/stats;csv'
+        scrape_uri: 'unix:/run/haproxy/admin.sock'
