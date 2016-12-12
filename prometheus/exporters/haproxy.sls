@@ -1,5 +1,5 @@
 {% from "prometheus/map.jinja" import prometheus with context %}
-{%- set version_path = haproxy.exporters.haproxy.install_dir ~ "/haproxy_exporter-" ~ prometheus.exporters.haproxy.version %}
+{%- set version_path = prometheus.exporters.haproxy.install_dir ~ "/haproxy_exporter-" ~ prometheus.exporters.haproxy.version %}
 
 include:
   - prometheus.user
