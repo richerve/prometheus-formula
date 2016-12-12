@@ -23,3 +23,10 @@ prometheus:
       install_dir: /opt
       source: https://github.com/prometheus/node_exporter/releases/download/v0.13.0/node_exporter-0.13.0.linux-amd64.tar.gz
       source_hash: sha1=84ca5f711962319f6f7823208b9d867ab1c0e3e7
+    blackbox:
+      version: 0.3.0.linux-amd64
+      install_dir: /opt
+      source: https://github.com/prometheus/blackbox_exporter/releases/download/v0.3.0/blackbox_exporter-0.3.0.linux-amd64.tar.gz
+      source_hash: sha1=89ac98c062315ba35eda257ca88c8c4b43f38d47
+      args:
+        config_file: /etc/prometheus/blackbox_exporter.yml
