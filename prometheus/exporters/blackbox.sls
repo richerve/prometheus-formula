@@ -46,3 +46,4 @@ blackbox_exporter_service:
     - reload: True
     - watch:
       - file: blackbox_exporter_defaults
+      - file: blackbox_exporter_bin_link

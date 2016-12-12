@@ -44,3 +44,4 @@ node_exporter_service:
     - reload: True
     - watch:
       - file: node_exporter_defaults
+      - file: node_exporter_bin_link

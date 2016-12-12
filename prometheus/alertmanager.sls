@@ -76,3 +76,4 @@ alertmanager_service:
     - reload: True
     - watch:
       - file: alertmanager_config
+      - file: alertmanager_bin_link

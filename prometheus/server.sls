@@ -69,3 +69,4 @@ prometheus_service:
     - reload: True
     - watch:
       - file: prometheus_server_config
+      - file: prometheus_bin_link
