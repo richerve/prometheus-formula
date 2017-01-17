@@ -1,10 +1,10 @@
 {% import_yaml 'prometheus/defaults.yaml' as defaults %}
 
-{% do defaults.prometheus.alertmanager.update('version_path': defaults.prometheus.alertmanager.install_dir ~ "/alertmanager-" ~ defaults.prometheus.alertmanager.version) %}
-{% do defaults.prometheus.server.update('version_path': defaults.prometheus.server.install_dir ~ "/prometheus-" ~ defaults.prometheus.server.version) %}
+{% do defaults.prometheus.alertmanager.update({'version_path': defaults.prometheus.alertmanager.install_dir ~ "/alertmanager-" ~ defaults.prometheus.alertmanager.version}) %}
+{% do defaults.prometheus.server.update({'version_path': defaults.prometheus.server.install_dir ~ "/prometheus-" ~ defaults.prometheus.server.version}) %}
 
-{% do defaults.prometheus.exporter.node.update('version_path': defaults.prometheus.exporter.node.install_dir ~ "/node_exporter-" ~ defaults.prometheus.exporter.node.version) %}
-{% do defaults.prometheus.exporter.blackbox.update('version_path': defaults.prometheus.exporter.blackbox.install_dir ~ "/blackbox_exporter-" ~ defaults.prometheus.exporter.blackbox.version) %}
-{% do defaults.prometheus.exporter.haproxy.update('version_path': defaults.prometheus.exporter.haproxy.install_dir ~ "/haproxy_exporter-" ~ defaults.prometheus.exporter.haproxy.version) %}
+{% do defaults.prometheus.exporter.node.update({'version_path': defaults.prometheus.exporter.node.install_dir ~ "/node_exporter-" ~ defaults.prometheus.exporter.node.version}) %}
+{% do defaults.prometheus.exporter.blackbox.update({'version_path': defaults.prometheus.exporter.blackbox.install_dir ~ "/blackbox_exporter-" ~ defaults.prometheus.exporter.blackbox.version}) %}
+{% do defaults.prometheus.exporter.haproxy.update({'version_path': defaults.prometheus.exporter.haproxy.install_dir ~ "/haproxy_exporter-" ~ defaults.prometheus.exporter.haproxy.version}) %}
 
 {% set prometheus = salt['pillar.get']('prometheus', default=defaults.prometheus, merge=True) %}
