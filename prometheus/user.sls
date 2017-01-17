@@ -1,3 +1,5 @@
+{% from "prometheus/map.jinja" import prometheus with context %}
+
 prometheus_group:
   group.present:
     - name: {{ prometheus.group }}
