@@ -1,5 +1,4 @@
 {% from "prometheus/map.jinja" import prometheus with context %}
-{%- set version_path = prometheus.exporters.blackbox.install_dir ~ "/blackbox_exporter-" ~ prometheus.exporters.blackbox.version %}
 
 include:
   - prometheus.user
@@ -9,13 +8,15 @@ blackbox_exporter_tarball:
     - name: {{ prometheus.exporters.blackbox.install_dir }}
     - source: {{ prometheus.exporters.blackbox.source }}
     - source_hash: {{ prometheus.exporters.blackbox.source_hash }}
+    - user: {{ prometheus.user }}
+    - group: {{ prometheus.group }}
     - archive_format: tar
-    - if_missing: {{ version_path }}
+    - if_missing: {{ prometheus.exporter.blackbox.version_path }}
 
 blackbox_exporter_bin_link:
   file.symlink:
     - name: /usr/bin/blackbox_exporter
-    - target: {{ version_path }}/blackbox_exporter
+    - target: {{ prometheus.exporter.blackbox.version_path }}/blackbox_exporter
     - require:
       - archive: blackbox_exporter_tarball
 
@@ -45,5 +46,6 @@ blackbox_exporter_service:
     - enable: True
     - reload: True
     - watch:
+      - file: blackbox_exporter_service_unit
       - file: blackbox_exporter_defaults
       - file: blackbox_exporter_bin_link

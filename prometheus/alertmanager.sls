@@ -1,5 +1,4 @@
 {% from "prometheus/map.jinja" import prometheus with context %}
-{%- set version_path = prometheus.alertmanager.install_dir ~ "/alertmanager-" ~ prometheus.alertmanager.version %}
 
 include:
   - prometheus.user
@@ -10,20 +9,20 @@ alertmanager_tarball:
     - source: {{ prometheus.alertmanager.source }}
     - source_hash: {{ prometheus.alertmanager.source_hash }}
     - archive_format: tar
-    - if_missing: {{ version_path }}
+    - if_missing: {{ prometheus.alertmanager.version_path }}
 
 alertmanager_bin_link:
   file.symlink:
     - name: /usr/bin/alertmanager
-    - target: {{ version_path }}/alertmanager
+    - target: {{ prometheus.alertmanager.version_path }}/alertmanager
     - require:
       - archive: alertmanager_tarball
 
 alertmanager_config:
   file.serialize:
     - name: {{ prometheus.alertmanager.args.config_file }}
-    - user: prometheus
-    - group: prometheus
+    - user: {{ prometheus.user }}
+    - group: {{ prometheus.group }}
     - dataset_pillar: prometheus:alertmanager:config
 
 alertmanager_config:
@@ -31,8 +30,8 @@ alertmanager_config:
     - name: {{ prometheus.alertmanager.args.config_file }}
     - source: salt://prometheus/files/config.jinja
     - template: jinja
-    - user: prometheus
-    - group: prometheus
+    - user: {{ prometheus.user }}
+    - group: {{ prometheus.group }}
     - makedirs: True
     - defaults:
         data: {{ prometheus.alertmanager.config }}
@@ -49,8 +48,8 @@ alertmanager_defaults:
 alertmanager_storage_path:
   file.directory:
     - name: {{ prometheus.alertmanager.args.storage.path }}
-    - user: prometheus
-    - group: prometheus
+    - user: {{ prometheus.user }}
+    - group: {{ prometheus.group }}
     - makedirs: True
     - watch:
       - file: alertmanager_defaults
@@ -75,5 +74,6 @@ alertmanager_service:
     - enable: True
     - reload: True
     - watch:
+      - file: alertmanager_service_unit
       - file: alertmanager_config
       - file: alertmanager_bin_link

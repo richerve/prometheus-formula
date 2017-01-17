@@ -1,9 +1,11 @@
 prometheus_group:
   group.present:
-    - name: prometheus
+    - name: {{ prometheus.group }}
+    - system: True
 
 prometheus_user:
   user.present:
-    - name: prometheus
+    - name: {{ prometheus.user }}
     - home: /var/lib/prometheus
-    - gid_from_name: True
+    - gid: {{ prometheus.group }}
+    - system: True

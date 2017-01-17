@@ -1,4 +1,6 @@
 prometheus:
+  user: prometheus
+  group: prometheus
   server:
     version: 1.4.1.linux-amd64
     install_dir: /opt
@@ -17,7 +19,7 @@ prometheus:
       config_file: /etc/alertmanager/alertmanager.yml
       storage:
         path: /var/lib/alertmanager
-  exporters:
+  exporter:
     node:
       version: 0.13.0.linux-amd64
       install_dir: /opt

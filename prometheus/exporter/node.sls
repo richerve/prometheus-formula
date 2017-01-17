@@ -1,5 +1,4 @@
 {% from "prometheus/map.jinja" import prometheus with context %}
-{%- set version_path = prometheus.exporters.node.install_dir ~ "/node_exporter-" ~ prometheus.exporters.node.version %}
 
 include:
   - prometheus.user
@@ -9,13 +8,15 @@ node_exporter_tarball:
     - name: {{ prometheus.exporters.node.install_dir }}
     - source: {{ prometheus.exporters.node.source }}
     - source_hash: {{ prometheus.exporters.node.source_hash }}
+    - user: {{ prometheus.user }}
+    - group: {{ prometheus.group }}
     - archive_format: tar
-    - if_missing: {{ version_path }}
+    - if_missing: {{ prometheus.exporter.node.version_path }}
 
 node_exporter_bin_link:
   file.symlink:
     - name: /usr/bin/node_exporter
-    - target: {{ version_path }}/node_exporter
+    - target: {{ prometheus.exporter.node.version_path }}/node_exporter
     - require:
       - archive: node_exporter_tarball
 
@@ -43,5 +44,6 @@ node_exporter_service:
     - enable: True
     - reload: True
     - watch:
+      - file: node_exporter_service_unit
       - file: node_exporter_defaults
       - file: node_exporter_bin_link

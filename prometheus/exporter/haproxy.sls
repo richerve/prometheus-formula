@@ -1,5 +1,4 @@
 {% from "prometheus/map.jinja" import prometheus with context %}
-{%- set version_path = prometheus.exporters.haproxy.install_dir ~ "/haproxy_exporter-" ~ prometheus.exporters.haproxy.version %}
 
 include:
   - prometheus.user
@@ -9,13 +8,15 @@ haproxy_exporter_tarball:
     - name: {{ prometheus.exporters.haproxy.install_dir }}
     - source: {{ prometheus.exporters.haproxy.source }}
     - source_hash: {{ prometheus.exporters.haproxy.source_hash }}
+    - user: {{ prometheus.user }}
+    - group: {{ prometheus.group }}
     - archive_format: tar
-    - if_missing: {{ version_path }}
+    - if_missing: {{ prometheus.exporter.haproxy.version_path }}
 
 haproxy_exporter_bin_link:
   file.symlink:
     - name: /usr/bin/haproxy_exporter
-    - target: {{ version_path }}/haproxy_exporter
+    - target: {{ prometheus.exporter.haproxy.version_path }}/haproxy_exporter
     - require:
       - archive: haproxy_exporter_tarball
 
@@ -45,5 +46,6 @@ haproxy_exporter_service:
     - enable: True
     - reload: True
     - watch:
+      - file: haproxy_exporter_service_unit
       - file: haproxy_exporter_defaults
       - file: haproxy_exporter_bin_link
