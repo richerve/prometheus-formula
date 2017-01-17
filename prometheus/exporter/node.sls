@@ -5,9 +5,9 @@ include:
 
 node_exporter_tarball:
   archive.extracted:
-    - name: {{ prometheus.exporters.node.install_dir }}
-    - source: {{ prometheus.exporters.node.source }}
-    - source_hash: {{ prometheus.exporters.node.source_hash }}
+    - name: {{ prometheus.exporter.node.install_dir }}
+    - source: {{ prometheus.exporter.node.source }}
+    - source_hash: {{ prometheus.exporter.node.source_hash }}
     - user: {{ prometheus.user }}
     - group: {{ prometheus.group }}
     - archive_format: tar

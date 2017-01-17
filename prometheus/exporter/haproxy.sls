@@ -5,9 +5,9 @@ include:
 
 haproxy_exporter_tarball:
   archive.extracted:
-    - name: {{ prometheus.exporters.haproxy.install_dir }}
-    - source: {{ prometheus.exporters.haproxy.source }}
-    - source_hash: {{ prometheus.exporters.haproxy.source_hash }}
+    - name: {{ prometheus.exporter.haproxy.install_dir }}
+    - source: {{ prometheus.exporter.haproxy.source }}
+    - source_hash: {{ prometheus.exporter.haproxy.source_hash }}
     - user: {{ prometheus.user }}
     - group: {{ prometheus.group }}
     - archive_format: tar
@@ -26,7 +26,7 @@ haproxy_exporter_defaults:
     - source: salt://prometheus/files/default-haproxy_exporter.jinja
     - template: jinja
     - defaults:
-        scrape_uri: {{ prometheus.exporters.haproxy.args.scrape_uri }}
+        scrape_uri: {{ prometheus.exporter.haproxy.args.scrape_uri }}
 
 haproxy_exporter_service_unit:
   file.managed:
