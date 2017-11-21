@@ -39,3 +39,8 @@ prometheus:
       source_hash: sha1=56849253e280db3db2aa80f1013ecfe242536d32
       args:
         scrape_uri: 'unix:/run/haproxy/admin.sock'
+    rabbitmq:
+      version: 0.24.0.linux-amd64
+      install_dir: /opt
+      source: https://github.com/kbudde/rabbitmq_exporter/releases/download/v0.24.0/rabbitmq_exporter-0.24.0.linux-amd64.tar.gz
+      source_hash: sha256=dbbd44a5a4b4a22ba338b9732c014587bc11513a5d6d2e3e519fc313b1cc46d4

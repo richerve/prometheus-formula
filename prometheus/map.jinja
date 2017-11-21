@@ -8,4 +8,5 @@
 {% do prometheus.exporter.node.update({'version_path': prometheus.exporter.node.install_dir ~ "/node_exporter-" ~ prometheus.exporter.node.version}) %}
 {% do prometheus.exporter.blackbox.update({'version_path': prometheus.exporter.blackbox.install_dir ~ "/blackbox_exporter-" ~ prometheus.exporter.blackbox.version}) %}
 {% do prometheus.exporter.haproxy.update({'version_path': prometheus.exporter.haproxy.install_dir ~ "/haproxy_exporter-" ~ prometheus.exporter.haproxy.version}) %}
+{% do prometheus.exporter.rabbitmq.update({'version_path': prometheus.exporter.rabbitmq.install_dir ~ "/rabbitmq_exporter-" ~ prometheus.exporter.rabbitmq.version}) %}
 
