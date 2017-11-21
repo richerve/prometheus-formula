@@ -1,0 +1,18 @@
+[Unit]
+Description=Prometheus rabbitmq exporter
+Documentation=https://github.com/kbudde/rabbitmq_exporter
+Wants=basic.target
+After=basic.target network.target
+
+[Service]
+User=prometheus
+Group=prometheus
+EnvironmentFile=/etc/default/rabbitmq_exporter
+ExecStart=/usr/bin/rabbitmq_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=always
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target
