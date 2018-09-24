@@ -24,6 +24,7 @@ prometheus_server_config:
     - user: {{ prometheus.user }}
     - group: {{ prometheus.group }}
     - dataset_pillar: prometheus:server:config
+    - makedirs: True
 
 prometheus_defaults:
   file.managed:
