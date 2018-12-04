@@ -2,6 +2,8 @@
 Prometheus saltstack formula
 ============================
 
+This repo is not maintained. I don't use Salstack anymore
+
 .. note::
 
     See the full `Salt Formulas installation and usage instructions
